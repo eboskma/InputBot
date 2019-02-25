@@ -3,8 +3,8 @@ use crate::public::{
     MouseButton::{self, *},
 };
 
-impl From<KeybdKey> for u64 {
-    fn from(key: KeybdKey) -> u64 {
+impl From<KeybdKey> for usize {
+    fn from(key: KeybdKey) -> usize {
         match key {
             BackspaceKey => 0xFF08,
             TabKey => 0xFF09,

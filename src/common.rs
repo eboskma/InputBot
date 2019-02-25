@@ -1,4 +1,5 @@
 use crate::public::*;
+use lazy_static::lazy_static;
 pub use std::{
     collections::hash_map::HashMap,
     sync::atomic::{AtomicPtr, Ordering},

@@ -15,10 +15,11 @@ use nix::{
     unistd::close,
 };
 use std::{
-    mem::uninitialized, os::unix::io::RawFd, path::Path, ptr::null, thread::sleep, time::Duration,
+    mem::uninitialized, os::unix::io::RawFd, path::Path, ptr::null, thread::sleep, time::Duration, os::raw::c_char
 };
 use uinput::event::relative::Position;
 use x11::{xlib::*, xtest::*};
+use lazy_static::lazy_static;
 
 mod inputs;
 
@@ -50,10 +51,10 @@ lazy_static! {
 
 impl KeybdKey {
     pub fn is_pressed(self) -> bool {
-        let code = get_key_code(u64::from(self) as _);
+        let code = get_key_code(usize::from(self) as _);
         let mut array: [i8; 32] = [0; 32];
         SEND_DISPLAY.with(|display| unsafe {
-            XQueryKeymap(display, &mut array as *mut [i8; 32] as *mut i8);
+            XQueryKeymap(display, &mut array as *mut [i8; 32] as *mut c_char);
         });
         array[(code >> 3) as usize] & (1 << (code & 7)) != 0
     }
@@ -217,7 +218,7 @@ fn handle_input_event(event: Event) {
     }
 }
 
-fn get_key_code(code: u64) -> u8 {
+fn get_key_code(code: usize) -> u8 {
     SEND_DISPLAY.with(|display| unsafe { XKeysymToKeycode(display, code) })
 }
 

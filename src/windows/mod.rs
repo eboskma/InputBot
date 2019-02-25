@@ -9,6 +9,7 @@ use winapi::{
     shared::{minwindef::*, windef::*},
     um::winuser::*,
 };
+use lazy_static::lazy_static;
 
 mod inputs;
 
