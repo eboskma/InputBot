@@ -218,7 +218,7 @@ fn handle_input_event(event: Event) {
     }
 }
 
-fn get_key_code(code: usize) -> u8 {
+fn get_key_code(code: u32) -> u8 {
     SEND_DISPLAY.with(|display| unsafe { XKeysymToKeycode(display, code) })
 }
 
